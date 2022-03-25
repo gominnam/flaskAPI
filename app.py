@@ -5,10 +5,10 @@ import users.views as view
 
 db_uri = 'mysql+pymysql://{USER}:{PASSWORD}@{ADDR}:{PORT}/{NAME}?charset=utf8'.format(
     USER="root",
-    PASSWORD="rootpw",
-    ADDR="localhost",
+    PASSWORD="",
+    ADDR="34.64.195.33",
     PORT=3306,
-    NAME="flask-db"
+    NAME="bakery"
 )
 
 
@@ -16,11 +16,13 @@ def discover_models():
     from users import models
 
 
+db = SQLAlchemy()
+
 def create_app():
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 
-    db = SQLAlchemy(app)
+    db.init_app(app)
     Migrate(app, db)
 
     discover_models()

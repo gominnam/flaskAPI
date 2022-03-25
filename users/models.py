@@ -1,12 +1,10 @@
-from sqlalchemy import Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
+from app import db
 
 
-Base = declarative_base()
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(128))
 
 
-class User(Base):
-    __tablename__ = 'user'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(128))
-
+class Profile(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
