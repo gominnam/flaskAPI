@@ -1,9 +1,12 @@
-from flask_restx import Resource
+from flask.views import MethodView
+from flask import jsonify
 
-from app import api
 
-
-@api.route('/hello')
-class HelloWorld(Resource):
+class HelloWorld(MethodView):
     def get(self):
-        return {"username": "hello"}
+        return jsonify({"username": "hello"})
+
+
+class myInfo(MethodView):
+    def get(self):
+        return jsonify({"name": "minjun", "gender": "m"})
