@@ -1,10 +1,12 @@
 from flask.views import MethodView
-from flask import jsonify
+from flask import jsonify, request
+from app.users.services import get_user_name
 
 
 class HelloWorld(MethodView):
     def get(self):
-        return jsonify({"username": "hello"})
+        name = get_user_name(request.args.get('id'))
+        return jsonify({"username": name})
 
 
 class myInfo(MethodView):
