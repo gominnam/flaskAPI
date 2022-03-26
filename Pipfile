@@ -8,10 +8,10 @@ flask = "*"
 flask-restx = "*"
 flask-sqlalchemy = "*"
 flask-marshmallow = "*"
-flask-migrate = "*"
 pymysql = "*"
 flask-script = "*"
 mysql-connector-python = "*"
+alembic = "*"
 
 [dev-packages]
 
