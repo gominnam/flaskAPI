@@ -12,6 +12,8 @@ pymysql = "*"
 flask-script = "*"
 mysql-connector-python = "*"
 alembic = "*"
+google-cloud-secret-manager = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

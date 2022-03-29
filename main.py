@@ -1,6 +1,9 @@
+from dotenv import load_dotenv
+
+load_dotenv()  # take environment variables from .env.
+
 from flask import Flask
 import app.users.views as view
-
 
 app = Flask(__name__)
 
