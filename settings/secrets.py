@@ -1,9 +1,5 @@
 from google.cloud import secretmanager
 
-import os
-
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/minjunko/Downloads/dunkinguys-ad0fb2c23505.json"
-
 
 def read_secret(secret_id, version_id="latest"):
     # Create the Secret Manager client.

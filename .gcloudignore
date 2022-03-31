@@ -22,5 +22,3 @@ __pycache__/
 #   ERROR: (gcloud.app.deploy) INVALID_ARGUMENT: File 'Pipfile' is not supported.
 Pipfile
 Pipfile.lock
-
-.env

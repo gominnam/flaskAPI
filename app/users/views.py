@@ -9,6 +9,6 @@ class HelloWorld(MethodView):
         return jsonify({"username": name})
 
 
-class myInfo(MethodView):
+class home(MethodView):
     def get(self):
-        return jsonify({"name": "minjun", "gender": "m"})
+        return "Welcome Bakery"
