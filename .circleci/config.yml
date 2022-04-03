@@ -42,8 +42,8 @@ jobs:
       - image: google/cloud-sdk:slim
     steps:
       - checkout
-      - run: echo ${GOOGLE_SERVICE_ACCOUNT_KEY} | gcloud auth activate-service-account --key-file=-
-      - run: echo ${GOOGLE_SERVICE_ACCOUNT_KEY}
+      - run: echo ${GOOGLE_SERVICE_ACCOUNT_KEY} > /tmp/key.json
+      - run: echo ${GOOGLE_SERVICE_ACCOUNT_KEY} | gcloud auth activate-service-account --key-file=/tmp/key.json
       - attach_workspace:
           at: .
       - restore_cache:
