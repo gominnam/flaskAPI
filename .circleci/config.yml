@@ -43,6 +43,7 @@ jobs:
     steps:
       - checkout
       - run: echo ${GOOGLE_SERVICE_ACCOUNT_KEY} | gcloud auth activate-service-account --key-file=-
+      - run: echo ${GOOGLE_SERVICE_ACCOUNT_KEY}
       - attach_workspace:
           at: .
       - restore_cache:
