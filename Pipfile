@@ -9,9 +9,12 @@ flask-sqlalchemy = "*"
 pymysql = "*"
 mysql-connector-python = "*"
 google-cloud-secret-manager = "*"
+sentry-sdk = "*"
+blinker = "*"
 
 [dev-packages]
 alembic = "*"
+pytest = "*"
 
 [requires]
 python_version = "3.10"

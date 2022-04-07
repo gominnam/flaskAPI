@@ -54,7 +54,7 @@ jobs:
           command: ls -al
       - run:
           name: Google Cloud Deploy
-          command: gcloud app deploy --project ${GOOGLE_PROJECT_NAME}
+          command: gcloud app deploy --project dunkinguys
 
 
 workflows:
