@@ -13,7 +13,6 @@ if ENV == "prod":
         integrations=[FlaskIntegration()]
     )
 
-
 app = Flask(__name__)
 
 app.add_url_rule("/", view_func=view.home.as_view('home'))
