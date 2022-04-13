@@ -16,21 +16,10 @@ if ENV == 'prod':
 else:
     BASE_DB_URL = 'mysql+pymysql://{USER}:{PASSWORD}@{ADDR}:{PORT}/{NAME}?charset=utf8'.format(
         USER="root",
-        PASSWORD="rootpw", #read_secret("bakery-dev-db-password")
-        ADDR="localhost", #34.64.195.33 / 127.0.0.1
+        PASSWORD="rootpw",
+        ADDR="localhost",
         PORT=3306,
-        NAME="flask-db" #bakery
+        NAME="flask-db"
     )
-
-# else:
-#     BASE_DB_URL = 'mysql+pymysql://{USER}:{PASSWORD}@{ADDR}:{PORT}/{NAME}?charset=utf8'.format(
-#         USER="root",
-#         PASSWORD=read_secret("bakery-dev-db-password"),
-#         ADDR="34.64.195.33",
-#         PORT=3306,
-#         NAME="bakery"
-#     )
-
-print("test = {}".format(BASE_DB_URL))
 
 base_engine = create_engine(BASE_DB_URL, echo=True)

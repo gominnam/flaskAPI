@@ -1,4 +1,5 @@
 import sentry_sdk
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from settings.db import base_engine
 from app.users.models import User
@@ -24,8 +25,10 @@ def post_user_join(name: str, password: str, locale: str) -> tuple[dict, int]:
             user = User(name, password, locale)
             session.add(user)
             session.commit()
+        except IntegrityError:
+            return {"error": "duplicate_phone_number"}, status.HTTP_400_BAD_REQUEST
         except Exception as e:
             sentry_sdk.capture_exception(e)
-            return {"error": e}, status.HTTP_400_BAD_REQUEST
+            return {"error": str(e)}, status.HTTP_400_BAD_REQUEST
 
         return {"success": "welcome_slender"}, status.HTTP_200_OK

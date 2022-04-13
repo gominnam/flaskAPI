@@ -5,8 +5,7 @@ from app.common.models import Base
 class User(Base):
     __tablename__ = 'user'
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    phone_number = Column(String(128))
+    phone_number = Column(String(128), primary_key=True)
     password = Column(String(128))
     locale = Column(String(128))
 
@@ -18,4 +17,5 @@ class User(Base):
 
 class Profile(Base):
     __tablename__ = 'profile'
+
     id = Column(Integer, primary_key=True, autoincrement=True)
