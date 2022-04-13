@@ -39,3 +39,4 @@ class join(MethodView):
 
         data, code = post_user_join(phone_number, password, locale)
         return jsonify(data), code
+
