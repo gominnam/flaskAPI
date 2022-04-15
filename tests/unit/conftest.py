@@ -8,7 +8,7 @@ TEST_CONFIG = {
 }
 
 
-@pytest.fixture(scope='session')    # once run
+@pytest.fixture(scope='session')
 def app():
     _app.config.update(TEST_CONFIG)
     return _app
@@ -18,3 +18,6 @@ def app():
 def client(app):
     client = app.test_client(app)
     return client
+
+
+

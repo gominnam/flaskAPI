@@ -15,6 +15,7 @@ blinker = "*"
 [dev-packages]
 alembic = "*"
 pytest = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.10"
