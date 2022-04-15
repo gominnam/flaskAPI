@@ -26,6 +26,9 @@ PyMySQL==1.0.2
 requests==2.27.1
 rsa==4.8
 six==1.16.0
-SQLAlchemy==1.4.34
+SQLAlchemy~=1.4.35
 urllib3==1.26.9
 Werkzeug==2.1.1
+
+pytest~=7.1.1
+alembic~=1.7.7

@@ -14,7 +14,6 @@ if ENV == "prod":
     )
 
 app = Flask(__name__)
-
 app.add_url_rule("/", view_func=view.home.as_view('home'))
 app.add_url_rule("/login", view_func=view.login.as_view('login'))
 app.add_url_rule("/join", view_func=view.join.as_view('join'))

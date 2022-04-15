@@ -6,7 +6,7 @@ from app.users.services import login_user, post_user_join
 
 class home(MethodView):
     def get(self):
-        return "Welcome Bakery"
+        return jsonify({"success": "Welcome Bakery"}), status.HTTP_200_OK
 
 
 class login(MethodView):
