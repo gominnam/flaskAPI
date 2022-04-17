@@ -18,7 +18,7 @@ def login_user(phone_number: str, user_password: str) -> tuple[dict, int]:
             return {"error": "incorrect_password"}, status.HTTP_400_BAD_REQUEST
 
 
-def post_user_join(phone_number: str, password: str, locale: str) -> tuple[dict, int]:
+def join_user(phone_number: str, password: str, locale: str) -> tuple[dict, int]:
     with Session(base_engine) as session:
         try:
             user = User(phone_number, password, locale)

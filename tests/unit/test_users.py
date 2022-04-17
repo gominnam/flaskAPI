@@ -1,5 +1,6 @@
 from app.common import status
 
+
 join_data = {"phone_number": "01012345678",
              "password": "123456",
              "locale": "ko_KR.UTF-8"}

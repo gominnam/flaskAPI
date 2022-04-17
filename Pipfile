@@ -11,6 +11,7 @@ mysql-connector-python = "*"
 google-cloud-secret-manager = "*"
 sentry-sdk = "*"
 blinker = "*"
+flask-restx = "*"
 
 [dev-packages]
 alembic = "*"
