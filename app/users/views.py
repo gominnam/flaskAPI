@@ -20,7 +20,8 @@ class login(MethodView):
         elif user_password is None:
             return jsonify({"error": "password_is_not_null"})
 
-        return jsonify(login_user(phone_number, user_password))
+        data, status_code = login_user(phone_number, user_password)
+        return jsonify(data), status_code
 
 
 class join(MethodView):
@@ -39,4 +40,3 @@ class join(MethodView):
 
         data, code = post_user_join(phone_number, password, locale)
         return jsonify(data), code
-
