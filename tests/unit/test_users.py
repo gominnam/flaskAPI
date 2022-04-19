@@ -32,3 +32,9 @@ def test_login_with_invalid_phone(client):
     invalid_login_data['password'] = '456123'
     response = client.post('/login', json=invalid_login_data)
     assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+
+def test_auth_message(client):
+    response = client.post('/join/message', json=join_data)
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json == {"success": "ok"}

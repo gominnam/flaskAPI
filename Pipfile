@@ -12,6 +12,7 @@ google-cloud-secret-manager = "*"
 sentry-sdk = "*"
 blinker = "*"
 flask-restx = "*"
+flask-cors = "*"
 
 [dev-packages]
 alembic = "*"
