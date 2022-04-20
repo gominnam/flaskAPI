@@ -31,10 +31,10 @@ class Verification(Base):
     join_expired_time = Column(DateTime(), nullable=False) # 10m
     created_time = Column(DateTime(), nullable=False)
 
-    def __init__(self, phone_number, auth_code, token, auto_expired_time, join_expired_time, created_time):
+    def __init__(self, phone_number, auth_code, token, auth_expired_time, join_expired_time, created_time):
         self.phone_number = phone_number
         self.auth_code = auth_code
         self.token = token
-        self.auto_expired_time = auto_expired_time
+        self.auth_expired_time = auth_expired_time
         self.join_expired_time = join_expired_time
         self.created_time = created_time
