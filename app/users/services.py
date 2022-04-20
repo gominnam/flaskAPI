@@ -14,9 +14,10 @@ def login_user(phone_number: str) -> tuple[dict, int]:
         user = session.query(User).filter(User.phone_number == phone_number).first()
 
         if not user:
-            return {"ok": False, "error": "phone_number_not_exist"}, status.HTTP_400_BAD_REQUEST
-        else:
-            return {"ok": False, "error": "incorrect_password"}, status.HTTP_400_BAD_REQUEST
+            return {"ok": False, "error": {"code": "phone_number_not_exist"
+                                        , "message": "가입하지 않은 번호 입니다."}}, status.HTTP_400_BAD_REQUEST
+
+        return {"ok": True, "message": "login_pass_have_a_good_time"}, status.HTTP_200_OK
 
 
 def join_user(phone_number: str, user_id: str, gender: str, birth: str, locale: str) -> tuple[dict, int]:
@@ -32,7 +33,7 @@ def join_user(phone_number: str, user_id: str, gender: str, birth: str, locale: 
             sentry_sdk.capture_exception(e)
             return {"ok": False, "error": str(e)}, status.HTTP_400_BAD_REQUEST
 
-        return {"ok": True, "message": "Slender 가입을 축하드립니다."}, status.HTTP_200_OK
+        return {"ok": True, "message": "congratulation_on_joining_slender"}, status.HTTP_200_OK
 
 
 def generate_verification(phone_number: str, auth_code: str, token: str, auth_expired_time: str
@@ -84,4 +85,3 @@ def confirm_join_token(phone_number: str, token: str, request_time: str) -> tupl
                 , "message": "인증 토큰이 일치하지 않습니다."}}, status.HTTP_400_BAD_REQUEST
 
         return {"ok": True, "token": verification.token}, status.HTTP_200_OK
-
