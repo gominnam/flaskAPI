@@ -1,6 +1,7 @@
 import datetime
 
 import sentry_sdk
+from flask_jwt_extended import create_access_token, create_refresh_token
 from sqlalchemy import desc
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
@@ -17,7 +18,9 @@ def login_user(phone_number: str) -> tuple[dict, int]:
             return {"ok": False, "error": {"code": "phone_number_not_exist"
                                         , "message": "가입하지 않은 번호 입니다."}}, status.HTTP_400_BAD_REQUEST
 
-        return {"ok": True, "message": "login_pass_have_a_good_time"}, status.HTTP_200_OK
+        access_token = create_access_token(identity=phone_number)
+        refresh_token = create_refresh_token(identity=phone_number)
+        return {"ok": True, "token": {"access_token": access_token, "refresh_token": refresh_token}}, status.HTTP_200_OK
 
 
 def join_user(phone_number: str, user_id: str, gender: str, birth: str, locale: str) -> tuple[dict, int]:
@@ -50,7 +53,7 @@ def compare_created_time(phone_number: str, comparator_time: datetime) -> bool:
     with Session(base_engine) as session:
         verification = session.query(Verification).filter(Verification.phone_number == phone_number,
                                                           Verification.created_time >= comparator_time) \
-            .order_by(desc(Verification.id)).first()
+                                                    .order_by(desc(Verification.id)).first()
         if verification:
             return True
         else:

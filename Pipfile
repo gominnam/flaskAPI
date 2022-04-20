@@ -13,6 +13,7 @@ sentry-sdk = "*"
 blinker = "*"
 flask-restx = "*"
 flask-cors = "*"
+flask-jwt-extended = "*"
 
 [dev-packages]
 alembic = "*"

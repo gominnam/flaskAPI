@@ -34,7 +34,6 @@ class login(Resource):
     def post(self):
         data = request.json
         phone_number = data.get('phone_number')
-        # TODO: add jwt
 
         if phone_number is None:
             return {"error": "phone_number_is_not_null"}
