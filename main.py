@@ -8,7 +8,7 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 from settings.secrets import read_secret
 import os
 import app.users.views as view
-import app.jwt.jwt_token as jwt
+import app.jwt.views as jwt
 import sentry_sdk
 
 ENV = os.environ.get('ENV', 'devel')
@@ -29,6 +29,7 @@ app.register_blueprint(jwt.jwt_app)
 api = Api(app, version='1.0', title='API 문서', description='Swagger 문서', doc="/api-docs")
 
 api.add_namespace(view.users_api)
+api.add_namespace(jwt.jwt_api)
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 app.config['JWT_SECRET_KEY'] = "super-secret"  # Change this!
