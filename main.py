@@ -1,8 +1,8 @@
 from datetime import timedelta
 
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS
-from flask_jwt_extended import JWTManager
+from flask_jwt_extended import JWTManager, verify_jwt_in_request
 from flask_restx import Api
 from sentry_sdk.integrations.flask import FlaskIntegration
 from settings.secrets import read_secret
@@ -25,12 +25,12 @@ app = Flask(__name__,
             template_folder='templates')
 
 app.register_blueprint(view.users_app)
-app.register_blueprint(jwt.jwt_app)
+app.register_blueprint(jwt.token_app)
 api = Api(app, version='1.0', title='API 문서', description='Swagger 문서', doc="/api-docs")
 
 api.add_namespace(view.users_api)
-api.add_namespace(jwt.jwt_api)
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+api.add_namespace(jwt.token_api)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 app.config['JWT_SECRET_KEY'] = "super-secret"  # Change this!
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(minutes=15)
