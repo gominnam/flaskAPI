@@ -18,8 +18,8 @@ def login_user(phone_number: str) -> tuple[dict, int]:
             return {"ok": False, "error": {"code": "phone_number_not_exist"
                                         , "message": "가입하지 않은 번호 입니다."}}, status.HTTP_400_BAD_REQUEST
 
-        access_token = create_access_token(identity=phone_number)
-        refresh_token = create_refresh_token(identity=phone_number)
+        access_token = create_access_token(identity={'phone_number': phone_number})
+        refresh_token = create_refresh_token(identity={'phone_number': phone_number})
         return {"ok": True, "token": {"access_token": access_token, "refresh_token": refresh_token}}, status.HTTP_200_OK
 
 
@@ -36,7 +36,9 @@ def join_user(phone_number: str, user_id: str, gender: str, birth: str, locale: 
             sentry_sdk.capture_exception(e)
             return {"ok": False, "error": str(e)}, status.HTTP_400_BAD_REQUEST
 
-        return {"ok": True, "message": "congratulation_on_joining_slender"}, status.HTTP_200_OK
+        access_token = create_access_token(identity={'phone_number': phone_number})
+        refresh_token = create_refresh_token(identity={'phone_number': phone_number})
+        return {"ok": True, "token": {"access_token": access_token, "refresh_token": refresh_token}}, status.HTTP_200_OK
 
 
 def generate_verification(phone_number: str, auth_code: str, token: str, auth_expired_time: str

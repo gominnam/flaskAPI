@@ -1,8 +1,8 @@
 from datetime import timedelta
 
-from flask import Flask, request
+from flask import Flask, jsonify
 from flask_cors import CORS
-from flask_jwt_extended import JWTManager, verify_jwt_in_request
+from flask_jwt_extended import JWTManager
 from flask_restx import Api
 from sentry_sdk.integrations.flask import FlaskIntegration
 from settings.secrets import read_secret
@@ -10,6 +10,7 @@ import os
 import app.users.views as view
 import app.jwt.views as jwt
 import sentry_sdk
+from app.common import status
 
 ENV = os.environ.get('ENV', 'devel')
 
@@ -35,8 +36,19 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 app.config['JWT_SECRET_KEY'] = "super-secret"  # Change this!
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(minutes=15)
 app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=15)
+app.config['PROPAGATE_EXCEPTIONS'] = True
 
 jwt = JWTManager(app)
+
+
+@jwt.expired_token_loader
+def my_expired_token_callback(jwt_header, jwt_payload):
+    return jsonify(ok=False, message="access_token_is_expired"), status.HTTP_400_BAD_REQUEST
+
+
+@jwt.invalid_token_loader
+def my_invalid_token_loader(token_invalid_reason):
+    return jsonify(ok=False, message="access_token_is_invalid"), status.HTTP_400_BAD_REQUEST
 
 
 if __name__ == "__main__":
