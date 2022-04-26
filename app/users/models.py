@@ -19,6 +19,12 @@ class User(Base):
         self.birth = birth
         self.locale = locale
 
+    def serialize(self):
+        return {"phone_number": self.phone_number,
+                "user_id": self.user_id,
+                "gender": self.gender,
+                "birth": str(self.birth)}
+
 
 class Verification(Base):
     __tablename__ = 'verification'

@@ -90,3 +90,16 @@ def confirm_join_token(phone_number: str, token: str, request_time: str) -> tupl
                 , "message": "인증 토큰이 일치하지 않습니다."}}, status.HTTP_400_BAD_REQUEST
 
         return {"ok": True, "token": verification.token}, status.HTTP_200_OK
+
+
+def get_me(phone_number: str) -> tuple[dict, int]:
+    with Session(base_engine) as session:
+        user = session.query(User).filter(User.phone_number == phone_number).first()
+
+        if not user:
+            return {"ok": False, "error": {"code": "can_not_found_user_info"
+                                        , "message": "회원정보를 찾을 수 없습니다."}}, status.HTTP_400_BAD_REQUEST
+
+        user_info = user.serialize()
+
+        return {"ok": True, "user": user_info}, status.HTTP_200_OK

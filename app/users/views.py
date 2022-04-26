@@ -3,11 +3,12 @@ import uuid
 
 import requests
 from flask import request, Blueprint
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_restx import Resource, Namespace, fields
 
 from app.common import status
 from app.users.services import login_user, join_user, generate_verification, compare_created_time, complete_auth, \
-    confirm_join_token
+    confirm_join_token, get_me
 from settings.secrets import read_secret
 
 import base64
@@ -178,5 +179,18 @@ class auth(Resource):
 
         request_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         data, code = complete_auth(phone_number, auth_code, request_time)
+
+        return data, code
+
+
+@users_api.route('/me')
+@users_api.header('Authorization: Bearer', 'JWT ACCESS TOKEN', required=True)
+class me(Resource):
+    @jwt_required()
+    def get(self):
+        jwt_identity = get_jwt_identity()
+        phone_number = jwt_identity['phone_number']
+
+        data, code = get_me(phone_number)
 
         return data, code
