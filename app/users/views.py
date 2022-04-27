@@ -183,8 +183,12 @@ class auth(Resource):
         return data, code
 
 
+parser = users_api.parser()
+parser.add_argument('Authorization', type=str, location='headers', help='Bearer access_token', required=True)
+
+
 @users_api.route('/me')
-@users_api.header('Authorization: Bearer', 'JWT ACCESS TOKEN', required=True)
+@users_api.expect(parser)
 class me(Resource):
     @jwt_required()
     def get(self):
