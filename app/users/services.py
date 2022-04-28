@@ -74,7 +74,7 @@ def complete_auth(phone_number: str, auth_code: str, request_time: str) -> tuple
             return {"ok": False, "error": {"code": "not_match_auth_code"
                                             , "message": "인증번호가 일치하지 않습니다."}}, status.HTTP_400_BAD_REQUEST
 
-        return {"ok": True}, status.HTTP_200_OK
+        return {"ok": True, "token": verification.token}, status.HTTP_200_OK
 
 
 def confirm_join_token(phone_number: str, token: str, request_time: str) -> tuple[dict, int]:

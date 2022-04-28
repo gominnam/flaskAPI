@@ -24,20 +24,17 @@ class home(Resource):
         return {"success": "Welcome Bakery"}, status.HTTP_200_OK
 
 
-login_model = users_api.model('login', {
-    'phone_number': fields.String(required=True, description='휴대폰번호')
-})
+parser = users_api.parser()
+parser.add_argument('Authorization', type=str, location='headers', help='Bearer access_token', required=True)
 
 
 @users_api.route('/login')
+@users_api.expect(parser)
 class login(Resource):
-    @users_api.expect(login_model)
+    @jwt_required()
     def post(self):
-        data = request.json
-        phone_number = data.get('phone_number')
-
-        if phone_number is None:
-            return {"error": "phone_number_is_not_null"}
+        jwt_identity = get_jwt_identity()
+        phone_number = jwt_identity['phone_number']
 
         data, status_code = login_user(phone_number)
         return data, status_code
@@ -87,7 +84,7 @@ class join(Resource):
 
 
 sms_model = users_api.model('sms', {
-    'phone_number': fields.Integer(required=True, description='휴대폰번호')
+    'phone_number': fields.String(required=True, description='휴대폰번호')
 })
 
 
@@ -157,7 +154,7 @@ class sms(Resource):
 
 
 auth_code_model = users_api.model('auth_code', {
-    'phone_number': fields.Integer(required=True, description='휴대폰번호'),
+    'phone_number': fields.String(required=True, description='휴대폰번호'),
     'auth_code': fields.String(required=True, description='인증코드')
 })
 
@@ -181,10 +178,6 @@ class auth(Resource):
         data, code = complete_auth(phone_number, auth_code, request_time)
 
         return data, code
-
-
-parser = users_api.parser()
-parser.add_argument('Authorization', type=str, location='headers', help='Bearer access_token', required=True)
 
 
 @users_api.route('/me')
