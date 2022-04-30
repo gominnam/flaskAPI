@@ -1,5 +1,4 @@
 import datetime
-import uuid
 
 import requests
 import responses
@@ -24,6 +23,19 @@ def test_home(client):
     assert response.json == {"success": "Welcome Bakery"}
 
 
+def test_login(app, client):
+    with app.app_context():
+        join_user('01098989898', 'test_login', 'M', '20220429', 'ko_KR.UTF-8')
+
+        access_token = create_access_token(identity={'phone_number': '01098989898'})
+        headers = {
+            'Authorization': 'Bearer {}'.format(access_token)
+        }
+        response = client.get('/users/login', headers=headers)
+
+        assert response.status_code == status.HTTP_200_OK
+
+
 @responses.activate
 def test_join_sms(client, mocker):
     mocker.patch("app.users.views.read_secret", return_value="ssi-bal")
@@ -39,7 +51,6 @@ def test_join_sms(client, mocker):
     data = {
         'phone_number': '01011111111'
     }
-
     response = client.post('/users/join/sms', json=data)
 
     assert response.status_code == status.HTTP_200_OK
@@ -62,7 +73,6 @@ def test_join_auth(client):
         'phone_number': '01012341234',
         'auth_code': '123456'
     }
-
     response = client.post('/users/join/auth', json=data)
 
     assert response.status_code == status.HTTP_200_OK
@@ -79,7 +89,6 @@ def test_join(client):
         'locale': 'ko_KR.UTF-8',
         'token': 'token_asdf'
     }
-
     response = client.post('/users/join', json=data)
 
     assert response.status_code == status.HTTP_200_OK
@@ -93,7 +102,6 @@ def test_me(app, client):
         headers = {
             'Authorization': 'Bearer {}'.format(access_token)
         }
-
         response = client.get('/users/me', headers=headers)
 
         assert response.status_code == status.HTTP_200_OK

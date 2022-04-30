@@ -32,7 +32,7 @@ parser.add_argument('Authorization', type=str, location='headers', help='Bearer 
 @users_api.expect(parser)
 class login(Resource):
     @jwt_required()
-    def post(self):
+    def get(self):
         jwt_identity = get_jwt_identity()
         phone_number = jwt_identity['phone_number']
 
