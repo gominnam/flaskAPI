@@ -103,3 +103,10 @@ def get_me(phone_number: str) -> tuple[dict, int]:
         user_info = user.serialize()
 
         return {"ok": True, "user": user_info}, status.HTTP_200_OK
+
+
+def user_id_is_exist(user_id: str) -> str:
+    with Session(base_engine) as session:
+        user = session.query(User).filter(User.user_id == user_id).first()
+
+        return user.id

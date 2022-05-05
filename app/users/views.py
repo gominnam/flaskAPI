@@ -8,7 +8,7 @@ from flask_restx import Resource, Namespace, fields
 
 from app.common import status
 from app.users.services import login_user, join_user, generate_verification, compare_created_time, complete_auth, \
-    confirm_join_token, get_me
+    confirm_join_token, get_me, user_id_is_exist
 from settings.secrets import read_secret
 
 import base64
@@ -178,6 +178,37 @@ class auth(Resource):
         data, code = complete_auth(phone_number, auth_code, request_time)
 
         return data, code
+
+
+user_id_valid_model = users_api.model('user_id_valid', {
+    'user_id': fields.String(required=True, description='아이디'),
+})
+
+
+@users_api.route('/join/id-valid')  #  아이디 영문 숫자 특수문자(. 또는 _)만 가능,
+class auth(Resource):
+    @users_api.expect(user_id_valid_model)
+    def post(self):
+        data = request.json
+        user_id = data.get('user_id')
+        form_checking_user_id = user_id.replace('_', '')
+        form_checking_user_id = form_checking_user_id('.', '')
+
+        if user_id is None:
+            return {"ok": False, "error": {"code": "user_id_is_not_null",
+                                           "message": "유저 아이디는 필수 입력값 입니다."}}, status.HTTP_400_BAD_REQUEST
+        elif len(user_id) < 3 or len(user_id) > 20:
+            return {"ok": False, "error": {"code": "user_id_length_is_unvalid",
+                                           "message": "유저 아이디 길이는 3~20자리까지 유효합니다."}}, status.HTTP_400_BAD_REQUEST
+        elif form_checking_user_id.isalnum() is False:
+            return {"ok": False, "error": {"code": "user_id_form_unvalid",
+                                           "message": "유저 아이디 형식은 영어, 숫자 및 특수문자('.', '_')만 입력가능 합니다."}}, status.HTTP_400_BAD_REQUEST
+
+        if user_id_is_exist(user_id) is not None:
+            return {"ok": True, "message": "회원가입이 가능한 아이디 입니다."}, status.HTTP_200_OK
+
+
+        return user_id
 
 
 @users_api.route('/me')
